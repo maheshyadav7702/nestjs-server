@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose'; // Import the correct type for Model
 import { Users } from './schemas/users.schema';
@@ -13,10 +17,9 @@ export class UsersService {
 
   // get all users with serarch and pagination
   async getAllUsers(query: Query): Promise<Users[]> {
-
-const rowsPerpage:any = query.rowsPerpage;
-const currentPage:any = query.currentPage || 1;
-const skip:any = rowsPerpage * (currentPage - 1)
+    const rowsPerpage: any = query.rowsPerpage || 2;
+    const currentPage: any = query.currentPage || 1;
+    const skip: any = rowsPerpage * (currentPage - 1);
 
     const keyword = query.keyword
       ? {
@@ -26,7 +29,11 @@ const skip:any = rowsPerpage * (currentPage - 1)
           },
         }
       : {};
-    return await this.userModel.find({ ...keyword }).limit(rowsPerpage).skip(skip).exec(); // Add '.exec()' for better error handling
+    return await this.userModel
+      .find({ ...keyword })
+      .limit(rowsPerpage)
+      .skip(skip)
+      .exec(); // Add '.exec()' for better error handling
   }
 
   async createuser(data: any): Promise<any> {
@@ -35,8 +42,7 @@ const skip:any = rowsPerpage * (currentPage - 1)
   }
 
   async getById(id: any): Promise<any> {
-
-    const isValidId = mongoose.isValidObjectId(id) // when pass the invalid id
+    const isValidId = mongoose.isValidObjectId(id); // when pass the invalid id
 
     if (!isValidId) {
       throw new BadRequestException('Please enter valid id');
