@@ -1,7 +1,8 @@
-import { Controller,Get,Body,Post, Param,Put,Delete } from '@nestjs/common';
+import { Controller,Get,Body,Post, Param,Put,Delete,Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersDto } from './dto/users.dto';
 import { UpdateDto } from './dto/update.dto';
+import { Query as ExpressQuery} from 'express-serve-static-core';
 
 
 
@@ -10,8 +11,10 @@ export class UsersController {
  constructor(private userModel:UsersService){}
 
  @Get()
- async getAllUsers(){
-    return this.userModel.getAllUsers()
+   // get all users with serarch and pagination
+ async getAllUsers(@Query() query:ExpressQuery){
+
+    return this.userModel.getAllUsers(query)
  }
 
  @Post()
