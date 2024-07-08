@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose'; // Import the correct type for Model
+import mongoose, { Model } from 'mongoose'; // Import the correct type for Model
 import { Users } from './schemas/users.schema';
 import { Query } from 'express-serve-static-core';
 
@@ -35,6 +35,12 @@ const skip:any = rowsPerpage * (currentPage - 1)
   }
 
   async getById(id: any): Promise<any> {
+
+    const isValidId = mongoose.isValidObjectId(id) // when pass the invalid id
+
+    if (!isValidId) {
+      throw new BadRequestException('Please enter valid id');
+    }
     const res = await this.userModel.findById(id);
     if (!res) {
       throw new NotFoundException('not found');

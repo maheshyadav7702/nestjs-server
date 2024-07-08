@@ -80,3 +80,6 @@ Nest is [MIT licensed](LICENSE).
 3. created the .env file and added the db-rui variable
 4. installed the mongo related packages
 -> npm i mongoose @nestjs/mongoose @nestjs/config --save
+
+5. To insall the pipe and validations 
+-> npm install --save class-validator class-transformer --save
