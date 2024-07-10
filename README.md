@@ -72,14 +72,36 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](LICENSE).
 
-
 # -------------------------------------------------------------------------------------
 
 1. npm install @nestjs/cli
 2. nest new nestjs-service
 3. created the .env file and added the db-rui variable
 4. installed the mongo related packages
--> npm i mongoose @nestjs/mongoose @nestjs/config --save
+   -> npm i mongoose @nestjs/mongoose @nestjs/config --save
 
-5. To insall the pipe and validations 
--> npm install --save class-validator class-transformer --save
+5. To insall the pipe and validations
+   -> npm install --save class-validator class-transformer --save
+
+6. To install the my SQL
+   -> npm install @nestjs/typeorm typeorm mysql2
+
+# auth singup, sigout, token, refresh token, jwt
+
+-> generate the controller, service, dto, entity, and module files, with with the single command
+
+# nest g resource auth
+
+-> for validation install the below validator commands
+
+# npm install --save class-validator class-transformer --save
+
+
+# to check the jwt token
+jwt.io
+
+# to check the date format
+epochconverter.com
+
+# to generate the unique id, to create the refresh token, installed the below package.
+npm install uuid
