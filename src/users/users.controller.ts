@@ -7,17 +7,22 @@ import {
   Put,
   Delete,
   Query,
+  BadRequestException,
+  UsePipes,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersDto } from './dto/users.dto';
 import { UpdateDto } from './dto/update.dto';
 import { Query as ExpressQuery } from 'express-serve-static-core';
+import { ToNumberPipe } from 'src/pipes/my-first-pipe';
 
 @Controller('users')
 export class UsersController {
   constructor(private userModel: UsersService) {}
 
   @Get()
+
   // get all users with serarch and pagination
   async getAllUsers(@Query() query: ExpressQuery) {
     return this.userModel.getAllUsers(query);
@@ -29,7 +34,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  async getById(@Param('id') id: any): Promise<any> {
+  async getById(@Param('id', ParseIntPipe) id: any): Promise<any> {
     return this.userModel.getById(id);
   }
 

@@ -51,12 +51,12 @@ export class AuthService {
     return {
       ...token,
       userId: user._id,
-    }
+    };
   }
 
   async refreshToken(refreshToken: string) {
     // Check if the refresh token exists
-    const token = await this.refreshTokenModel.findOneAndDelete({
+    const token = await this.refreshTokenModel.findOne({
       token: refreshToken,
       expiryDate: { $gte: new Date() },
     });
@@ -66,11 +66,10 @@ export class AuthService {
     }
 
     return this.genarateUserToken(token.userId);
-
   }
 
   async genarateUserToken(userId: any) {
-    const access_token = this.jwtService.sign({ userId }, { expiresIn: '60s' });
+    const access_token = this.jwtService.sign({ userId }, { expiresIn: '60m' });
     const refresh_token = uuidv4();
     await this.storeRefreshToken(refresh_token, userId);
     return {
@@ -82,7 +81,11 @@ export class AuthService {
   async storeRefreshToken(token: string, userId: string) {
     const expiryDate = new Date();
     expiryDate.setDate(expiryDate.getDate() + 3);
-    const tokenData = new this.refreshTokenModel({ token, userId, expiryDate });
-    await tokenData.save();
+
+    await this.refreshTokenModel.updateOne(
+      { userId },
+      { $set: { expiryDate, token } },
+      { upsert: true },
+    );
   }
 }

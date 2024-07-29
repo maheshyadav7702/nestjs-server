@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { LoginModule } from './login/login.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
+import { GlobalModule } from './global/global.module';
 import config from './config/config';
 
 // const configModule = ConfigModule.forRoot({
@@ -28,7 +29,7 @@ import config from './config/config';
       }),
       global: true,
       inject: [ConfigService],
-     }),
+    }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -37,12 +38,17 @@ import config from './config/config';
       inject: [ConfigService],
     }),
 
-   
     UsersModule,
     LoginModule,
     AuthModule,
+    GlobalModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
+// export class AppModule {
+//   constructor(consumer: MiddlewareConsumer) {
+//     consumer.apply().exclude().forRoutes('*'); //if you want you can import middleware1 // this will work only for class based middle wares
+//   }
+// }
 export class AppModule {}

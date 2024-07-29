@@ -105,3 +105,25 @@ epochconverter.com
 
 # to generate the unique id, to create the refresh token, installed the below package.
 npm install uuid
+
+# to create the global module
+-> nest g module global
+
+1. without importing any service file we can consume, if we use that service file in global module component
+
+ex: 
+
+import { Global, Module } from '@nestjs/common';
+import { UsersService } from 'src/users/users.service';
+
+@Global()
+@Module({
+    providers: [UsersService];
+    exports: [UsersService];
+})
+export class GlobalModule {}
+
+# to generate the pipe
+-> nest g pipe pipename
+
+
